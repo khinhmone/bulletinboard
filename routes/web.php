@@ -14,5 +14,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
+
+// Route::get('/login', function () {
+//     dd('');
+// });
+
+Route::resource('login','LoginController');
+
+Route::get('users','UserController@index');
+
+// Posts
+Route::get('posts','PostController@index');
+Route::get('create_post_view','PostController@createView');
+Route::post('create_post_confirm','PostController@createConfirm');
+Route::post('store_post','PostController@storePost');
+Route::post('search','PostController@searchPost');
+
+//Route::get('request_password','ForgetPasswordController@index');
+
+Route::get('/forget_password', 'ForgotPasswordController@getEmail');
+Route::post('/forget_password', 'ForgotPasswordController@postEmail');
+
+Route::get('/reset_password/{token}', 'ResetPasswordController@getPassword');
+Route::post('/reset_password', 'ResetPasswordController@updatePassword');
+
+

@@ -1,0 +1,30 @@
+div{
+	margin: 30px 100px 0 200px;
+
+}
+table tr th{
+	font-size: 35px;
+	padding: 10px;
+}
+
+table tr td{
+	padding: 10px;
+}
+
+table tr td span{
+	font-size: 25px;
+}
+
+table tr td{
+	font-size: 15px;
+}
+
+label{
+	color: red;
+}
+
+button{
+	background-color: lightblue;
+	width: 100px;
+	height: 35px;
+}

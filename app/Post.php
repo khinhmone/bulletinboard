@@ -3,15 +3,23 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+	use SoftDeletes;
+
+	// protected $dates = ['deleted_at'];
+
+	protected $fillable = [ 'title', 'description', 'status', 'create_user_id', 'updated_user_id', 'deleted_user_id', 'created_at', 'updated_at', 'deleted_at'
+	];
+
     // public function user(){
     //     return $this->hasOne(User::class);
     // }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id');
-    }
+	public function user()
+	{
+		return $this->belongsTo(User::class, 'id');
+	}
 }

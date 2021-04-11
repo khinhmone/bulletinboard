@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use App\User;
-use Auth;
 
 class LoginController extends Controller
 {
@@ -35,5 +35,10 @@ class LoginController extends Controller
                 'Email or password incorrect',
             ]);
         }
-    }    
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect('/');
+    }
 }

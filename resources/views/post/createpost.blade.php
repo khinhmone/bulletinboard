@@ -2,14 +2,14 @@
 
 @section('content')
 
+<style type="text/css">
+  span{
+    color: red;
+    margin-left: 20px;
+  }
+</style>
+
 <br>
-@if ($errors->any())
-  <ul>
-      @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-      @endforeach
-  </ul>
-@endif
 <div class="container">
   <div class="row justify-content-left">
     <div class="col-md-8">
@@ -19,16 +19,28 @@
             <form method="POST" action="{{ URL::to('/create_post_confirm') }}">
               @csrf
                 <div class="form-group row">
-                  <label for="email" class="col-md-4 col-form-label text-md-right">Title</label>
+                  <label for="email" class="col-md-4 col-form-label text-md-right">Title <span>*</span></label>
                   <div class="col-md-6">
-                    <input type="text" class="form-control" name="title" autofocus>
+                    <input type="text" name="title" class="form-control" autofocus>
+
+                    @if ($errors->has('title'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('title') }}</strong>
+                        </span>
+                    @endif
                   </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="password" class="col-md-4 col-form-label text-md-right">Description</label>
+                    <label for="password" class="col-md-4 col-form-label text-md-right">Description <span>*</span></label>
                     <div class="col-md-6">
                       <textarea name="description" class="form-control" rows="3"></textarea>
+
+                      @if ($errors->has('description'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('description') }}</strong>
+                        </span>
+                    @endif
                     </div>
                 </div>
 

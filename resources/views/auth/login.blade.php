@@ -15,7 +15,7 @@
 <body>
     @if ($errors->any())
         <ul>
-            @foreach ($errors->all() as $error)            
+            @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
@@ -28,33 +28,33 @@
                    <th>SCM Bulletin Board</th>
                 </tr>
 
-                <tr>               
-                    <td><span>Login Form</span></td>                
+                <tr>
+                    <td><span>Login Form</span></td>
                 </tr>
 
-                <tr>               
+                <tr>
                     <td>Email</td>
-                    <td><input type="text" name="email" size="50"> <label>*</label></td>                
+                    <td><input type="text" name="email" size="50"> <label>*</label></td>
                 </tr>
 
-                <tr>               
+                <tr>
                     <td>Password</td>
-                    <td><input type="password" name="password" size="50"> <label>*</label></td>                
+                    <td><input type="password" name="password" size="50"> <label>*</label></td>
                 </tr>
 
-                <tr>               
+                <tr>
                     <td></td>
-                    <td><input type="checkbox" name="remember_me">Remember Me</td>                
+                    <td><input type="checkbox" name="remember_me">Remember Me</td>
                 </tr>
 
-                <tr>               
+                <tr>
                     <td></td>
-                    <td><a href="{{ URL::to('/forget_password') }}">forget password?</a></td>                
+                    <td><a href="{{ URL::to('/forget_password') }}">forget password?</a></td>
                 </tr>
 
-                <tr>               
+                <tr>
                     <td></td>
-                    <td><button type="submit">Login</button></td>                
+                    <td><button type="submit">Login</button></td>
                 </tr>         
             </table>
         </div>

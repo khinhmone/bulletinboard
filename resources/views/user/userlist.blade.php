@@ -5,13 +5,18 @@
 <div style="margin-left: 150px;width: 1200px;">
 
   <div style="margin: 40px 0 50px 0">
+    @if ($message = Session::get('success'))
+      <div class="alert alert-info alert-dismissible" role="alert">
+        <strong>{{ $message }}!</strong>
+      </div>
+    @endif
     <h4>User List</h4>
     <input type="text" name="name" placeholder="Name">
     <input type="text" name="email" placeholder="Email">
-    <input type="text" name="from" placeholder="Created From">
-    <input type="text" name="to" placeholder="Created From">
+    <input type="date" name="from" placeholder="Created From">
+    <input type="date" name="to" placeholder="Created To">
     <button style="background-color: lightblue;">Search</button>
-    <button href="#" style="background-color: lightblue;">Add</button>
+    <a href="/create_user_view" class="btn btn-primary">Add</a>
   </div>
     
     <table class="table table-bordered table-sm">

@@ -5,8 +5,10 @@
 <div style="margin-left: 150px;width: 1200px;">
 
   <div style="margin: 40px 0 50px 0">
-    @if ($message = Session::get('success'))  
-        <strong style="background-color: lightblue"> {{ $message }} </strong>
+    @if ($message = Session::get('success'))
+      <div class="alert alert-info alert-dismissible" role="alert">
+        <strong>{{ $message }}!</strong>
+      </div>
     @endif
     <h4>Post List</h4>
     <form action="{{ URL::to('/search') }}" method="post">
@@ -35,8 +37,8 @@
           <td>{{ $post->description }}</td>
           <td>{{ $post->name }} </td>
           <td>{{ $post->created_at }}</td>   
-          <td><a href="{{ URL::to('/edit/'.$post->id)}}"> Edit </a></td>    
-          <td><a href="{{ URL::to('/delete/'.$post->id)}}" onclick="return confirm('Are you sure to delete {{ $post->title }}?');"> Delete </a></td>
+          <td><a href="{{ URL::to('/edit_post_view/'.$post->id)}}"> Edit </a></td>    
+          <td><a href="{{ URL::to('/delete_post/'.$post->id)}}" onclick="return confirm('Are you sure to delete {{ $post->title }}?');"> Delete </a></td>
         </tr>
     @endforeach
   </table>

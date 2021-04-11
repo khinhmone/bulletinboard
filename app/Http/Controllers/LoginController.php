@@ -24,9 +24,9 @@ class LoginController extends Controller
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password ])) {
                 // if successful -> redirect forward
                 if (Auth::user()->type == 1) {
-                    return redirect('users');
+                    return redirect('posts');
                 } else {
-                	return redirect('users');
+                	return redirect('posts');
                 }
             }
     

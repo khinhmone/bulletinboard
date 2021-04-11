@@ -38,6 +38,7 @@ class UserController extends Controller
 		$this->validate(request(),[
 			'name'=>'required|unique:users|max:255',
 			'email'=>'required',
+			'type'=>'required',
 			'password'=>'required',
 			'confirm_password'=>'same:password|required',
 			'profile'=>'required',
@@ -45,7 +46,12 @@ class UserController extends Controller
 
 		$name = $request->get('name');
 		$email = $request->get('email');
-		return view('user.createuserconfirm',['name' => $name, 'email' => $email]);
+		$type = $request->get('type');
+		$phone = $request->get('phone');
+		$dob = $request->get('dob');
+		$password = $request->get('password');
+		$address = $request->get('address');
+		return view('user.createuserconfirm',['name' => $name, 'email' => $email, 'type' => $type, 'phone' => $phone, 'dob' => $dob, 'password' => $password, 'address' => $address]);
 	}
 
 	// store post to db
@@ -54,6 +60,11 @@ class UserController extends Controller
 		$user = new User;
 		$user->name = $request->get('name');
 		$user->email = $request->get('email');
+		$user->type = $request->get('type');
+		$user->phone = $request->get('phone');
+		$user->dob = $request->get('dob');
+		$user->password = $request->get('password');
+		$user->address = $request->get('address');
 		$user->create_user_id = Auth::user()->id;
 		$user->updated_user_id = Auth::user()->id;
 		$user->created_at = Carbon::now();

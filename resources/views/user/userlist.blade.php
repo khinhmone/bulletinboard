@@ -1,4 +1,4 @@
-@extends('layouts.header')
+@extends('layouts.master')
 
 @section('content')
 
@@ -35,12 +35,12 @@
         <tr>    
           <td><a href=""> {{ $user->name }}</a> </td>
           <td>{{ $user->email }}</td>
-          <td>{{ $user->created_user }} </td>
+          <td>{{ $user->name }} </td>
           <td>{{ $user->phone }}</td>   
           <td>{{ $user->dob }}</td>    
           <td>{{ $user->address }}</td>
-          <td>{{ $user->created_date }}</td>
-          <td>{{ $user->updated_date }}</td>
+          <td>{{ $user->created_at }}</td>
+          <td>{{ $user->updated_at }}</td>
           <td><a href="{{ URL::to('/details/'.$user->id)}}"> Delete </a></td>
         </tr>
     @endforeach

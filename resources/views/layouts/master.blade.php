@@ -1,11 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Laravel Example</title>
-</head>
+<header>
+    @include('layouts.header')
+</header>
+
 <body>
-	<div class="container">
-		@yield("content")
-	</div>
-</body>
-</html>
+	@yield('content')
+</body>    
+
+<footer >
+    @include('layouts.footer')
+</footer>
+
+

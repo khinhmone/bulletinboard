@@ -20,15 +20,15 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card">
-        <div class="card-header">Update User Confirmationss</div>
+        <div class="card-header">Update User Confirmation</div>
           <div class="card-body">
-            <form method="POST" action="{{ URL::to('/update_userinfo') }}" enctype="multipart/form-data">
+            <form method="POST" action="/update_user/{{$id}}" enctype="multipart/form-data">
               {{ csrf_field() }}
                 <!-- name -->
                 <div class="form-group row">
-                  <label class="col-md-4 col-form-label text-md-left">Name</label>
+                  <label class="col-md-4 col-form-label text-md-right">Name : </label>
                   <div class="col-md-4">
-                    <label>{{ $name }}</label>
+                    <label class="col-md-8 col-form-label text-md-left">{{ $name }}</label>
                     <input type="hidden" name="name" value="{{ $name }}">
                   </div>
                   <div class="col-md-4 text-md-center">
@@ -38,45 +38,45 @@
 
                 <!-- email address -->
                 <div class="form-group row">
-                  <label class="col-md-4 col-form-label text-md-left">Email Address</label>
+                  <label class="col-md-4 col-form-label text-md-right">Email Address : </label>
                   <div class="col-md-4">
-                    <label>{{ $email }}</label>
+                    <label class="col-md-9 col-form-label text-md-left">{{ $email }}</label>
                     <input type="hidden" name="email" value="{{ $email }}">
                   </div>
                 </div>
 
                 <!-- type -->
                 <div class="form-group row">
-                  <label class="col-md-4 col-form-label text-md-left">Type</label>
+                  <label class="col-md-4 col-form-label text-md-right">Type : </label>
                   <div class="col-md-4">
-                    <label>{{ $type }}</label>
+                    <label class="col-md-9 col-form-label text-md-left">{{ $role }}</label>
                     <input type="hidden" name="type" value="{{ $type }}">
                   </div>
                 </div>
 
                 <!-- Phone -->
                 <div class="form-group row">
-                  <label class="col-md-4 col-form-label text-md-left">Phone</label>
+                  <label class="col-md-4 col-form-label text-md-right">Phone : </label>
                   <div class="col-md-4">
-                    <label>{{ $phone }}</label>
+                    <label class="col-md-9 col-form-label text-md-left">{{ $phone }}</label>
                     <input type="hidden" name="phone" value="{{ $phone }}">
                   </div>
                 </div>
 
                 <!-- Date Of Birth -->
                 <div class="form-group row">
-                  <label class="col-md-4 col-form-label text-md-left">Date Of Birth</label>
+                  <label class="col-md-4 col-form-label text-md-right">Date Of Birth : </label>
                   <div class="col-md-4">
-                    <label>{{ $dob }}</label>
+                    <label class="col-md-9 col-form-label text-md-left">{{ $dob }}</label>
                     <input type="hidden" name="dob" value="{{ $dob }}">
                   </div>
                 </div>
 
                 <!-- Address -->
                 <div class="form-group row">
-                  <label class="col-md-4 col-form-label text-md-left">Address</label>
+                  <label class="col-md-4 col-form-label text-md-right">Address : </label>
                   <div class="col-md-4">
-                    <label>{{ $address }}</label>
+                    <label class="col-md-9 col-form-label text-md-left">{{ $address }}</label>
                     <input type="hidden" name="address" value="{{ $address }}">
                   </div>
                 </div>

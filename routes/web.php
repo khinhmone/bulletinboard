@@ -39,9 +39,19 @@ Route::post('create_user_confirm','UserController@createUserConfirm');
 Route::post('store_user','UserController@storeUser');
 
 // edit and update user
-Route::get('edit_user_view','UserController@editUser');
-Route::post('edit_user_confirm','UserController@editUserConfirm');
-Route::post('update_userinfo','UserController@updateUser');
+Route::get('edit_user_view/{id}','UserController@editUser');
+Route::post('edit_user_confirm/{id}','UserController@editUserConfirm');
+Route::post('update_user/{id}','UserController@updateUser');
+
+// delete user
+Route::get('delete_user/{id}','UserController@deleteUser');
+
+// search user
+Route::post('user_search/','UserController@searchUser');
+
+// change_password
+Route::get('change_password_view','UserController@changePasswordView');
+Route::post('change_password','UserController@changePassword');
 
 /*** Posts ***/
 /*-----------*/
@@ -64,6 +74,10 @@ Route::get('delete_post/{id}','PostController@deletePost');
 
 // search post
 Route::post('search','PostController@searchPost');
+
+// upload_csv_view
+Route::get('upload_csv_view','PostController@uploadCSV');
+Route::post('upload_csv_process','PostController@uploadCSVProcess');
 
 
 /*** Password ***/

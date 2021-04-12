@@ -48,7 +48,5 @@
         </tr>
     @endforeach
   </table>
-  {{ $userList->links() }}
-
 </div>
 @endsection

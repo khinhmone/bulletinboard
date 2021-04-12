@@ -12,17 +12,17 @@
             <form method="POST" action="{{ URL::to('/store_post') }}">
               @csrf
                 <div class="form-group row">
-                  <label for="email" class="col-md-4 col-form-label text-md-right">Title</label>
+                  <label for="email" class="col-md-4 col-form-label text-md-right">Title :</label>
                   <div class="col-md-6">
-                    <label>{{ $title }}</label>
+                    <label class="col-md-4 col-form-label text-md-left">{{ $title }}</label>
                     <input type="hidden" name="title" value="{{ $title }}">
                   </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="password" class="col-md-4 col-form-label text-md-right">Description</label>
+                    <label for="password" class="col-md-4 col-form-label text-md-right">Description :</label>
                     <div class="col-md-6">
-                      <label>{{ $description }}</label>
+                      <label class="col-md-4 col-form-label text-md-left">{{ $description }}</label>
                       <input type="hidden" name="description" value="{{ $description }}">
                     </div>
                 </div>

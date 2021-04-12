@@ -7,7 +7,7 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card">
-        <div class="card-header">User Profile <a href="/edit_user_view" style="margin-left: 300px;">Edit</a></div>
+        <div class="card-header">User Profile <a href="/edit_user_view/{{Auth::user()->id}}" style="margin-left: 300px;">Edit</a></div>
           <div class="card-body">
             <div class="form-group row">
               <label class="col-md-3 col-form-label text-md-left">Name</label>

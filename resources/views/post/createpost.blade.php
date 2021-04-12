@@ -19,7 +19,7 @@
             <form method="POST" action="{{ URL::to('/create_post_confirm') }}">
               @csrf
                 <div class="form-group row">
-                  <label for="email" class="col-md-4 col-form-label text-md-right">Title <span>*</span></label>
+                  <label for="email" class="col-md-4 col-form-label text-md-right">Title</label>
                   <div class="col-md-6">
                     <input type="text" name="title" class="form-control" autofocus>
 
@@ -29,10 +29,13 @@
                         </span>
                     @endif
                   </div>
+                  <div class="col-md-2 text-md-left">
+                    <span>*</span>
+                  </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="password" class="col-md-4 col-form-label text-md-right">Description <span>*</span></label>
+                    <label for="password" class="col-md-4 col-form-label text-md-right">Description</label>
                     <div class="col-md-6">
                       <textarea name="description" class="form-control" rows="3"></textarea>
 
@@ -42,6 +45,9 @@
                         </span>
                     @endif
                     </div>
+                    <div class="col-md-2 text-md-left">
+                    <span>*</span>
+                  </div>
                 </div>
 
                 <div class="form-group row mb-0">

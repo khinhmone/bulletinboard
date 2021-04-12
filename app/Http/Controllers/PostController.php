@@ -13,7 +13,7 @@ class PostController extends Controller
 	// show all posts
 	public function index() 
 	{
-		if (Auth::user()->type == 1) {
+		if (Auth::user()->type == 0) {
 			$postList = Post::leftJoin('users','posts.create_user_id', '=', 'users.id')
 			->select('posts.*' ,'users.name')
 			->orderBy('created_at', 'DESC')
@@ -65,6 +65,7 @@ class PostController extends Controller
 	// retrieve data for update post form
 	public function editPost($id) 
 	{
+		$checked = '';
 		$ids = $id;
 		$post = Post::findOrFail($id);
 		$title = $post->title;
@@ -72,8 +73,6 @@ class PostController extends Controller
 		$status = $post->status;
 		if ($status == 1) {
 			$checked = 'checked';
-		} else {
-			$checked = '';
 		}
 		return view('post.updatepost', ['title' => $title, 'description' => $description, 'id' => $ids, 'checked' => $checked, 'status' => $status]);
 	}
@@ -81,36 +80,39 @@ class PostController extends Controller
 	// show data for update post form
 	public function editPostConfirm($id, Request $request) 
 	{
-		// dd($request);
+		$checked = '';
 		$this->validate(request(),[
 			'title'=>'required|unique:posts|max:255',
 			'description'=>'required',
 		]);
 
 		$ids = $id;
-		$title = $request->input('title');
-		$description = $request->input('description');
-		$status = $request->input('status');
-		if ($status == 1) {
+		$title = $request->get('title');
+		$description = $request->get('description');
+
+		if ($request->get('status') == "0") {
 			$checked = 'checked';
-		} else {
-			$checked = '';
 		}
-		return view('post.updatepostconfirm', ['title' => $title, 'description' => $description, 'id' => $ids, 'checked' => $checked, 'status' => $status]);
+
+		return view('post.updatepostconfirm', ['title' => $title, 'description' => $description, 'id' => $ids, 'checked' => $checked]);
 	}
 
 	// update post data to db
 	public function updatePost($id, Request $request) 
 	{
-		$this->validate(request(),[
-			'title'=>'required|unique:posts|max:255',
-			'description'=>'required',
-		]);
+
+		if ($request->get('status') == 'on') {
+			$status = 1;
+		}
+
+		if (empty($request->get('status'))) {
+			$status = 0;
+		}
 
 		$post = Post::findOrFail($id);
 		$post->title = $request->get('title');
 		$post->description = $request->get('description');
-		// $post->stauts = $request->get('stauts');
+		$post->status = $status;
 		$post->updated_user_id = Auth::user()->id;
 		$post->updated_at = Carbon::now();
 		$post->save();
@@ -131,10 +133,83 @@ class PostController extends Controller
 	{
 		$search_data = $request->get('search');
 		if ($search_data != null) {
-			$postList = Post::where('title', 'LIKE', '%'.$search_data.'%')->get();
+			if (Auth::user()->id == 1) {
+				$postList = Post::where('title', 'LIKE', '%'.$search_data.'%')->get();
+			} else {
+				$postList = Post::where('title', 'LIKE', '%'.$search_data.'%')->where('create_user_id', '=', Auth::user()->id)->get();
+			}
 			return view('post.postsearchresult',compact('postList'));
 		} else {
 			return redirect('/posts')->with('success','Please insert search keywords');
 		}
 	}
+
+	public function uploadCSV() 
+	{
+		return view('post.uploadcsv');
+	}
+
+	public function uploadCSVProcess(Request $request) 
+	{
+		// dd($request);
+		// $this->validate(request(),[
+		// 	// "csv_file" => "required|file|max:8192|mimes:csv,txt",
+		// 	"csv_file" => "required|mimes:csv",
+		// ]);
+		// dd('kkk');
+		// $data = array();
+
+		// $file = $request->file("csv_file");
+	// 	$csvData = file_get_contents($file);
+	// 	dd($csvData);
+	// 	$rows = array_map("str_getcsv", explode("\n", $csvData));
+	// 	dd($rows);
+	// 	$header = array_shift($rows);
+
+	// 	foreach ($rows as $row) {
+	// 		if (isset($row[0])) {
+	// 			if ($row[0] != "") {
+	// 				$row = array_combine($header, $row);
+
+	// 				$postData = array(
+	// 					"title" => $row["title"],
+	// 					"description" => $row["description"],
+	// 					"status" => $row["status"],
+	// 					"create_user_id" => Auth::user()->id,
+	// 					"updated_user_id" => '',
+	// 					"deleted_user_id" => '',
+	// 					"created_at" => Carbon::now(),
+	// 					"updated_at" => '',
+	// 					"deleted_at" => '',
+	// 				);
+
+	// 				$post = Post::create($postData);
+	// 				if(!is_null($post)) {
+	// 					$data["status"] = "success";
+	// 					$data["message"] = "Post imported successfully";
+	// 				}                        
+	// 			}
+	// 		}
+	// 	}
+	// 	return redirect('/posts')->with($data["status"], $data["message"]);
+		$file = $request->file("csv_file");
+		if (($handle = fopen ( public_path () . $file, 'r' )) !== FALSE) {
+			while ( ($data = fgetcsv ( $handle, 1000, ',' )) !== FALSE ) {
+			$post = new Post();
+			$post->title = $data [0];
+			$post->description = $data [1];
+			$post->status = $data [2];
+			$post->create_user_id = Auth::user()->id;
+			$post->updated_user_id = '';
+			$post->deleted_user_id = '';
+			$post->created_at = Carbon::now();
+			$post->updated_at = '';
+			$post->deleted_at = '';
+			$post->save ();
+			}
+			fclose ( $handle );
+			return redirect('/posts')->with('Post imported successfully');
+		}
+	}
+
 }

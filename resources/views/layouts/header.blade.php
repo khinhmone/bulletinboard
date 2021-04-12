@@ -15,7 +15,21 @@
     <link href="{{ URL::asset('../bootstrap-5/css/bootstrap.css') }}" rel="stylesheet">
 
     <!-- <script type="text/javascript" src="{{ URL::asset('../bootstrap/js/bootstrap.min.js') }}"></script> -->
-    <script type="text/javascript" src="{{ URL::asset('../bootstrap-5/js/bootstrap.min.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ URL::asset('../bootstrap-5/js/bootstrap.min.js') }}"></script> -->
+    <!-- <script type="text/javascript" src="{{ URL::asset('../public/js/edit_post_view_clear.js') }}"></script> -->
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            console.log( "ready!" );
+        });
+
+    function clear(){
+        document.getElementById('title').value='';
+        document.getElementById('description').value='';
+    }
+
+    </script>
+
 </head>
 <body>
     <div id="app">
@@ -27,7 +41,7 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    @if(Auth::user()->id == 1)
+                    @if(Auth::user()->type == 0)
                         <li class="nav-item">
                             <a class="nav-link" href="/users">Users</a>
                         </li>

@@ -16,14 +16,14 @@ class UsersTableSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('admin'),
-            'type' => '1',
+            'type' => '0',
         ]);
 
         User::create([
             'name' => 'User',
             'email' => 'user@gmail.com',
             'password' => Hash::make('user'),
-            'type' => '0',
+            'type' => '1',
         ]);
     }
 }

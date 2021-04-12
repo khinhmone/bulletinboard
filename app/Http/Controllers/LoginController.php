@@ -13,9 +13,9 @@ class LoginController extends Controller
     {
         // validate the form data
         $validator = Validator::make($request->all(), [
-                'email' => 'required|email|exists:users,email',
-                'password' => 'required'
-            ]);
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required'
+        ]);
     
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();

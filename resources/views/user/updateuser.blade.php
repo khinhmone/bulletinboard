@@ -22,7 +22,7 @@
       <div class="card">
         <div class="card-header">Update User</div>
           <div class="card-body">
-            <form method="POST" action="/edit_user_confirm" enctype="multipart/form-data">
+            <form method="POST" action="/edit_user_confirm/{{Auth::user()->id}}"  enctype="multipart/form-data">
               {{ csrf_field() }}
                 <!-- name -->
                 <div class="form-group row">
@@ -60,8 +60,9 @@
                   <label class="col-md-4 col-form-label text-md-left">Type <span>*</span></label>
                   <div class="col-md-4">
                     <select name="type">
-                      <option value="1">Admin</option>
-                      <option value="0">User</option>
+                      <option value=""></option>
+                      <option value="0">Admin</option>
+                      <option value="1">User</option>
                     </select>
 
                     @if ($errors->has('type'))
@@ -121,7 +122,7 @@
                 <!-- change password -->
                 <div class="form-group row">
                   <label class="col-md-4 col-form-label text-md-left">
-                    <a href="">Change Password</a>
+                    <a href="{{ URL::to('/change_password_view')}}">Change Password</a>
                   </label>
                 </div>                
 

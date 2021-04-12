@@ -16,9 +16,9 @@
       <input type="text" name="search">
       <button type="submit" class="btn btn-primary">Search</button>
       <a href="{{ URL::to('/create_post_view')}}" class="btn btn-primary">Add</a>
-      <button style="background-color: lightblue;">Upload</button>
+      <a href="{{ URL::to('/upload_csv_view')}}" class="btn btn-primary">Upload</a>
       <button style="background-color: lightblue;">Download</button>
-      </form>
+    </form>
 
   </div>
     

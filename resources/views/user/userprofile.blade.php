@@ -19,7 +19,7 @@
             <div class="form-group row">
               <label class="col-md-3 col-form-label text-md-left"></label>
               <div class="col-md-6">
-                <img src="" class="img-rounded col-md-6" width="60" height="56">
+                <img src="{{ asset('images/') }}{{ '/'.Auth::user()->profile }}" class="img-rounded" width="80" height="80">
               </div>
             </div>
 

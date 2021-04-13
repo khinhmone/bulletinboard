@@ -9,7 +9,7 @@
       <div class="card">
         <div class="card-header">Upload CSV File</div>
           <div class="card-body">
-            <form method="POST" action="{{ URL::to('/upload_csv_process') }}">
+            <form action="{{ route('file-import') }}" method="POST" enctype="multipart/form-data">
               @csrf
                 <div class="form-group row">
                   <label for="email" class="col-md-4 col-form-label text-md-right">Import File From:</label>

@@ -29,11 +29,11 @@
                   <label class="col-md-4 col-form-label text-md-left">Old Password <span>*</span></label>
                   <div class="col-md-6">
                     <label></label>
-                    <input type="password" class="form-control" name="old_password" id="old_password">
+                    <input type="password" class="form-control" name="password" id="old_password">
                     <input type="hidden" name="old_password" value="{{ $old_password }}">
-                    @if ($errors->has('old_password'))
+                    @if ($errors->has('password'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('old_password') }}</strong>
+                            <strong>{{ $errors->first('password') }}</strong>
                         </span>
                     @endif
                   </div>

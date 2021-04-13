@@ -133,12 +133,12 @@ class PostController extends Controller
 	{
 		$search_data = $request->get('search');
 		if ($search_data != null) {
-			if (Auth::user()->id == 1) {
-				$postList = Post::where('title', 'LIKE', '%'.$search_data.'%')->get();
+			if (Auth::user()->type == 0) {
+				$postList = Post::where('title', 'LIKE', '%'.$search_data.'%')->paginate(5);
 			} else {
-				$postList = Post::where('title', 'LIKE', '%'.$search_data.'%')->where('create_user_id', '=', Auth::user()->id)->get();
+				$postList = Post::where('title', 'LIKE', '%'.$search_data.'%')->where('create_user_id', '=', Auth::user()->id)->paginate(5);
 			}
-			return view('post.postsearchresult',compact('postList'));
+			return view('post.postList',compact('postList'));
 		} else {
 			return redirect('/posts')->with('success','Please insert search keywords');
 		}
@@ -147,69 +147,6 @@ class PostController extends Controller
 	public function uploadCSV() 
 	{
 		return view('post.uploadcsv');
-	}
-
-	public function uploadCSVProcess(Request $request) 
-	{
-		// dd($request);
-		// $this->validate(request(),[
-		// 	// "csv_file" => "required|file|max:8192|mimes:csv,txt",
-		// 	"csv_file" => "required|mimes:csv",
-		// ]);
-		// dd('kkk');
-		// $data = array();
-
-		// $file = $request->file("csv_file");
-	// 	$csvData = file_get_contents($file);
-	// 	dd($csvData);
-	// 	$rows = array_map("str_getcsv", explode("\n", $csvData));
-	// 	dd($rows);
-	// 	$header = array_shift($rows);
-
-	// 	foreach ($rows as $row) {
-	// 		if (isset($row[0])) {
-	// 			if ($row[0] != "") {
-	// 				$row = array_combine($header, $row);
-
-	// 				$postData = array(
-	// 					"title" => $row["title"],
-	// 					"description" => $row["description"],
-	// 					"status" => $row["status"],
-	// 					"create_user_id" => Auth::user()->id,
-	// 					"updated_user_id" => '',
-	// 					"deleted_user_id" => '',
-	// 					"created_at" => Carbon::now(),
-	// 					"updated_at" => '',
-	// 					"deleted_at" => '',
-	// 				);
-
-	// 				$post = Post::create($postData);
-	// 				if(!is_null($post)) {
-	// 					$data["status"] = "success";
-	// 					$data["message"] = "Post imported successfully";
-	// 				}                        
-	// 			}
-	// 		}
-	// 	}
-	// 	return redirect('/posts')->with($data["status"], $data["message"]);
-		$file = $request->file("csv_file");
-		if (($handle = fopen ( public_path () . $file, 'r' )) !== FALSE) {
-			while ( ($data = fgetcsv ( $handle, 1000, ',' )) !== FALSE ) {
-			$post = new Post();
-			$post->title = $data [0];
-			$post->description = $data [1];
-			$post->status = $data [2];
-			$post->create_user_id = Auth::user()->id;
-			$post->updated_user_id = '';
-			$post->deleted_user_id = '';
-			$post->created_at = Carbon::now();
-			$post->updated_at = '';
-			$post->deleted_at = '';
-			$post->save ();
-			}
-			fclose ( $handle );
-			return redirect('/posts')->with('Post imported successfully');
-		}
 	}
 
 }

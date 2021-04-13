@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ExportImportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,11 +22,9 @@ Route::get('/', function () {
 //     dd('');
 // });
 
-Route::resource('login','LoginController');
+Route::post('login','LoginController@authenticate');
 Route::get('logout','LoginController@logout');
 
-/*** Users ***/
-/*-----------*/
 
 // user list
 Route::get('users','UserController@users');
@@ -53,9 +52,6 @@ Route::post('user_search/','UserController@searchUser');
 Route::get('change_password_view','UserController@changePasswordView');
 Route::post('change_password','UserController@changePassword');
 
-/*** Posts ***/
-/*-----------*/
-
 // post list
 Route::get('posts','PostController@index');
 
@@ -77,8 +73,6 @@ Route::post('search','PostController@searchPost');
 
 // upload_csv_view
 Route::get('upload_csv_view','PostController@uploadCSV');
-Route::post('upload_csv_process','PostController@uploadCSVProcess');
-
 
 /*** Password ***/
 /*-----------*/
@@ -89,4 +83,8 @@ Route::post('/forget_password', 'ForgotPasswordController@postEmail');
 Route::get('/reset_password/{token}', 'ResetPasswordController@getPassword');
 Route::post('/reset_password', 'ResetPasswordController@updatePassword');
 
+// import and export
+Route::get('file-import-export', [ExportImportController::class, 'fileImportExport']);
+Route::post('file-import', [ExportImportController::class, 'fileImport'])->name('file-import');
+Route::get('file-export', [ExportImportController::class, 'fileExport'])->name('file-export');
 

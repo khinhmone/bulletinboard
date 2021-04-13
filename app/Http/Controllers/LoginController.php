@@ -9,7 +9,7 @@ use App\User;
 
 class LoginController extends Controller
 {
-    public function store(Request $request)
+    public function authenticate(Request $request)
     {
         // validate the form data
         $validator = Validator::make($request->all(), [
@@ -23,11 +23,11 @@ class LoginController extends Controller
             // attempt to log
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password ])) {
                 // if successful -> redirect forward
-                if (Auth::user()->type == 1) {
-                    return redirect('posts');
-                } else {
+                // if (Auth::user()->type == 1) {
+                //     return redirect('posts');
+                // } else {
                 	return redirect('posts');
-                }
+                // }
             }
     
             // if unsuccessful -> redirect back

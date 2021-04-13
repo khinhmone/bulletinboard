@@ -11,23 +11,62 @@
     <title>SCM Bulletin Board</title>
 
     <!-- Styles -->
-    <link href="{{ URL::asset('../bootstrap/css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('../bootstrap-5/css/bootstrap.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
 
-    <!-- <script type="text/javascript" src="{{ URL::asset('../bootstrap/js/bootstrap.min.js') }}"></script> -->
-    <!-- <script type="text/javascript" src="{{ URL::asset('../bootstrap-5/js/bootstrap.min.js') }}"></script> -->
-    <!-- <script type="text/javascript" src="{{ URL::asset('../public/js/edit_post_view_clear.js') }}"></script> -->
-    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <!-- image preview -->
+    <script>
+      var loadFile = function(event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function() {
+          URL.revokeObjectURL(output.src)
+        }
+      };
+    </script>
+
+    <!-- get data to modal box -->
     <script type="text/javascript">
-        $( document ).ready(function() {
-            console.log( "ready!" );
+        $(document).ready(function () {
+            $(document).on('click', '#user-info', function(event) {
+               $id = $(this).attr('data-id');
+               $('#username').val($(".name_"+$id).val());
+               $('#useremail').val($(".email_"+$id).val());
+               $('#usertype').val($(".type_"+$id).val());
+               $('#userphone').val($(".phone_"+$id).val());
+               $('#useraddress').val($(".address_"+$id).val());
+               $('#userdob').val($(".dob_"+$id).val());
+            });
         });
 
-    function clear(){
-        document.getElementById('title').value='';
-        document.getElementById('description').value='';
-    }
+        $(document).on('click', '#post-info', function(event) {
+           $id =  $(this).attr('data-id');
+           $('#post_title').val($(".title_"+$id).val());
+           $('#post_description').val($(".description_"+$id).val());
+           $('#post_status').val($(".status_"+$id).val());
 
+            var created = $(".createdat_"+$id).val();
+            var created_year = created.substr(0, 4);
+            var created_month = created.substr(5, 2);
+            var created_date = created.substr(8, 2);
+            var created_at = created_year +'/'+ created_month +'/'+created_date;
+
+            var updated = $(".updatedat_"+$id).val();
+            var updated_year = updated.substr(0, 4);
+            var updated_month = updated.substr(5, 2);
+            var updated_date = updated.substr(8, 2);
+            var updated_at = updated_year +'/'+ updated_month +'/'+updated_date;
+
+           $('#post_created_at').val(created_at);
+           $('#post_created_user_id').val($(".created_user_"+$id).val());
+           $('#post_updated_at').val(updated_at);
+           $('#post_updated_user_id').val($(".updateuser_"+$id).val());
+        });        
     </script>
 
 </head>
@@ -41,11 +80,13 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    @if(Auth::user()->type == 0)
+                  <!-- @if(isset(Auth::user()->type)) -->
+                    <!-- @if(Auth::user()->type == 0) -->
                         <li class="nav-item">
                             <a class="nav-link" href="/users">Users</a>
                         </li>
-                    @endif
+                    <!-- @endif -->
+                  <!-- @endif -->
                     <li class="nav-item">
                         <a class="nav-link" href="/user_profile">User</a>
                     </li>

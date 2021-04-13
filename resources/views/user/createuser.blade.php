@@ -127,7 +127,8 @@
                 <div class="form-group row">
                   <label class="col-md-4 col-form-label text-md-left">Profile <span>*</span></label>
                   <div class="col-md-6">
-                    <input type="file" class="form-control" name="profile">
+                    <input type="file" accept="image/*" name="profile" class="form-control" onchange="loadFile(event)">
+                    <img id="output"/>
 
                     @if ($errors->has('profile'))
                         <span class="help-block">

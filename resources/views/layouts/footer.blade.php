@@ -7,10 +7,6 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <!-- Styles -->
-    <link href="{{ URL::asset('../bootstrap/css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('../bootstrap-5/css/bootstrap.css') }}" rel="stylesheet">
     <style type="text/css">
         #copyright{
             position: fixed;

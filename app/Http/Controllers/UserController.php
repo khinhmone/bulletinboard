@@ -19,7 +19,7 @@ class UserController extends Controller
 
 	public function userProfile()
 	{
-		if (Auth::user()->id == 1) {
+		if (Auth::user()->type == 0) {
 			$type = 'Admin';
 		} else {
 			$type = 'User';
@@ -40,14 +40,9 @@ class UserController extends Controller
 			'name'=>'required|unique:users|max:255',
 			'email'=>'required|email',
 			'type'=>'required',
-			'password' => [
-                'required',
-                'min:8',
-                'numeric',
-                // 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/'
-            ],
+			'password' => 'required|min:8|numeric',
 			'confirm_password'=>'same:password|required',
-			'profile'=>'required',
+			'profile'=>'required|mimes:jpeg,png|max:1024',
 		]);
 
 		$name = $request->get('name');
@@ -63,20 +58,18 @@ class UserController extends Controller
 		$password = bcrypt($request->get('password'));
 		$address = $request->get('address');
 		$profile = $request->file('profile');
-		return view('user.createuserconfirm',['name' => $name, 'email' => $email, 'type' => $type, 'phone' => $phone, 'dob' => $dob, 'password' => $password, 'address' => $address, 'profile' => $profile, 'role' => $role]);
+
+		$imageName = time().'.'.$request->file('profile')->extension();
+
+        $request->file('profile')->move(public_path('images'), $imageName);
+
+
+		return view('user.createuserconfirm',['name' => $name, 'email' => $email, 'type' => $type, 'phone' => $phone, 'dob' => $dob, 'password' => $password, 'address' => $address, 'profile' => $imageName, 'role' => $role]);
 	}
 
 	// store post to db
 	public function storeUser(Request $request) 
 	{
-		// $path = public_path().Auth::user()->id.'/images/';
-		// File::makeDirectory($path, $mode = 0777, true, true);
-
-		// $profile = $request->file('profile');
-		// $filename = $profile->getClientOriginalName();
-		// $profile->move($path,$filename);
-		// $profile = $filename;
-
 		$user = new User;
 		$user->name = $request->get('name');
 		$user->email = $request->get('email');
@@ -85,7 +78,7 @@ class UserController extends Controller
 		$user->dob = $request->get('dob');
 		$user->password = $request->get('password');
 		$user->address = $request->get('address');
-		// $user->profile = $profile;
+		$user->profile = $request->get('profile');
 		$user->create_user_id = Auth::user()->id;
 		$user->updated_user_id = Auth::user()->id;
 		$user->created_at = Carbon::now();
@@ -120,19 +113,24 @@ class UserController extends Controller
 		]);
 
 		$ids = $id;
-		$name = $request->input('name');
-		$email = $request->input('email');
-		$type = $request->input('type');
+		$name = $request->get('name');
+		$email = $request->get('email');
+		$type = $request->get('type');
 		if ($type == 0) {
 			$role = 'Admin';
 		} else {
 			$role = 'User';
 		}
-		$phone = $request->input('phone');
-		$dob = $request->input('dob');
-		$address = $request->input('address');
-		$profile = $request->file('profile');
-		return view('user.updateuserconfirm', ['name' => $name, 'email' => $email, 'type' => $type, 'phone' => $phone, 'dob' => $dob, 'address' => $address, 'profile' => $profile, 'id' => $ids, 'role' => $role]);
+		$phone = $request->get('phone');
+		$dob = $request->get('dob');
+		$address = $request->get('address');
+		$profile = $request->get('profile');
+
+		$imageName = time().'.'.$request->file('profile')->extension();
+
+        $request->file('profile')->move(public_path('images'), $imageName);
+
+		return view('user.updateuserconfirm', ['name' => $name, 'email' => $email, 'type' => $type, 'phone' => $phone, 'dob' => $dob, 'address' => $address, 'profile' => $imageName, 'id' => $ids, 'role' => $role]);
 	}
 
 	// update user data to db
@@ -145,6 +143,7 @@ class UserController extends Controller
 		$user->phone = $request->get('phone');
 		$user->dob = $request->get('dob');
 		$user->address = $request->get('address');
+		$user->profile = $request->get('profile');
 		$user->updated_user_id = Auth::user()->id;
 		$user->updated_at = Carbon::now();
 		$user->save();
@@ -172,17 +171,17 @@ class UserController extends Controller
 	// changePassword
 	public function changePassword(Request $request) 
 	{
-		// $this->validate(request(),[
-		// 	'old_password'=>'required',
-		// 	'new_password'=>'required|min:8',
-		// 	'confirm_new_password'=>'required|min:8|same:new_password',
-		// ]);
+		$this->validate(request(),[
+			'new_password'=>'required|min:8',
+			'confirm_new_password'=>'required|min:8|same:new_password',
+		]);
 
-		// $old_password = $request->get('old_password');
+		// $old_password = User::find(Auth::user()->id);
+
 		// if ($old_password != bcrypt($request->get('password'))) {
-		// 	# code...
+		// 	$error = array('password' => 'Please enter correct current password');
+		// 	return response()->json(array('error' => $error), 400);
 		// }
-		// dd($request);
 		$id = Auth::user()->id;
 		$user = User::findOrFail($id);
 		$user->password = bcrypt($request->get('new_password'));
@@ -190,19 +189,6 @@ class UserController extends Controller
 		$user->updated_at = Carbon::now();
 		$user->update();
 		return redirect('posts')->with('success','Password Change successfully!');
-
-
-		// if(!is_null($post)) {
-	// 					$data["status"] = "success";
-	// 					$data["message"] = "Post imported successfully";
-	// 				}  
-
-
-
-			// return redirect('/posts')->with($data["status"], $data["message"]);
-
-
-
 	}
 
 	public function searchUser(Request $request) 
@@ -211,27 +197,28 @@ class UserController extends Controller
 		$email = $request->get('email');
 		$from = $request->get('from');
 		$to = $request->get('to');
+		
 		if ($name) {
-			$userList = User::where('name', 'LIKE', '%'.$name.'%')->get();
+			$userList = User::where('name', 'LIKE', '%'.$name.'%')->paginate(5);
 		}
 
-		if ($email) {
-			$userList = User::where('email', 'LIKE', '%'.$email.'%')->get();
+		elseif ($email) {
+			$userList = User::where('email', 'LIKE', '%'.$email.'%')->paginate(5);
 		}
 
-		if ($from) {
-			$userList = User::where('created_at', '>', $from)->get();
+		elseif ($from) {
+			$userList = User::where('created_at', '>', $from)->get()->paginate(5);
 		}
 
-		if ($to) {
-			$userList = User::where('created_at', '<', $to)->get();
+		elseif ($to) {
+			$userList = User::where('created_at', '<', $to)->get()->paginate(5);
 		}
 
-		if ($from && $to) {
-			$userList = User::whereBetween('created_at', [$from, $to]);
+		else {
+			$userList = User::whereBetween('created_at', [$from, $to])->paginate(5);
 		}
 			
-		return view('user.usersearchresult',compact('userList'));
+		return view('user.userlist',['userList' => $userList]);
 	}
 }
 	

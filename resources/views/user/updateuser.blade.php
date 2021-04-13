@@ -4,7 +4,7 @@
 
 <style type="text/css">
   select{
-    width: 255px;
+    width: 208px;
     height: 35px;
     border: 1px solid lightgray;
     border-radius: 4px;
@@ -37,7 +37,7 @@
                     @endif
                   </div>
                   <div class="col-md-4 text-md-center">
-                    <img src="" class="img-rounded" width="80" height="60">
+                    <img src="{{ asset('images/') }}{{ '/'.$profile }}" class="img-rounded" width="80" height="80">
                   </div>
                 </div>
 
@@ -101,7 +101,8 @@
                 <div class="form-group row">
                   <label class="col-md-4 col-form-label text-md-left">Profile <span>*</span></label>
                   <div class="col-md-4">
-                    <input type="file" class="form-control" name="profile">
+                    <input type="file" accept="image/*" name="profile" class="form-control" onchange="loadFile(event)">
+                    <img id="output"/>
 
                     @if ($errors->has('profile'))
                         <span class="help-block">

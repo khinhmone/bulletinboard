@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -172,23 +173,29 @@ class UserController extends Controller
 	public function changePassword(Request $request) 
 	{
 		$this->validate(request(),[
+			'current_password' => 'required',
 			'new_password'=>'required|min:8',
 			'confirm_new_password'=>'required|min:8|same:new_password',
 		]);
+		if (!(Hash::check($request->get('current_password'), Auth::user()->password))) {
+            // The passwords matches
+            $error = array('password' => 'Please enter correct current password');
+			return response()->json(array('error' => $error), 400);
+        }
 
-		// $old_password = User::find(Auth::user()->id);
-
-		// if ($old_password != bcrypt($request->get('password'))) {
-		// 	$error = array('password' => 'Please enter correct current password');
-		// 	return response()->json(array('error' => $error), 400);
-		// }
-		$id = Auth::user()->id;
-		$user = User::findOrFail($id);
-		$user->password = bcrypt($request->get('new_password'));
-		$user->updated_user_id = Auth::user()->id;
-		$user->updated_at = Carbon::now();
-		$user->update();
-		return redirect('posts')->with('success','Password Change successfully!');
+        elseif(strcmp($request->get('current_password'), $request->get('new_password')) == 0){
+            //Current password and new password are same
+            $error = array('password' => 'New Password cannot be same as your current password. Please choose a different password.');
+			return response()->json(array('error' => $error), 400);
+        } else {
+	       	//Change Password
+	        $user = Auth::user();
+	        $user->password = bcrypt($request->get('new_password'));
+	        $user->updated_user_id = Auth::user()->id;
+			$user->updated_at = Carbon::now();
+	        $user->save();
+        }  
+        return redirect('posts')->with('success','Password Change successfully!');
 	}
 
 	public function searchUser(Request $request) 

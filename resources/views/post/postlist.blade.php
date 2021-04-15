@@ -37,8 +37,8 @@
         <tr>    
           <td id="post_id_{{ $post->id }}"><a class="btn btn-link" id="post-info" href="" data-toggle="modal" data-target="#exampleModal" data-id="{{ $post->id }}">{{ $post->title }}</a></td>
           <td>{{ $post->description }}</td>
-          <td>{{ $post->status }} </td>
-          <td>{{ $post->created_at }}</td>   
+          <td>{{ $post->name }} </td>
+          <td>{{ $post->formatted_created_at }}</td>   
           <td><a href="{{ URL::to('/edit_post_view/'.$post->id)}}"> Edit </a></td>    
           <td><a href="{{ URL::to('/delete_post/'.$post->id)}}" onclick="return confirm('Are you sure to delete {{ $post->title }}?');"> Delete </a></td>
           <input type="hidden" class="form-control title_{{$post->id}}" id="title" value="{{ $post->title }}">

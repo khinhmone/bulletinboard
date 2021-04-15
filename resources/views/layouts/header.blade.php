@@ -37,7 +37,11 @@
                $id = $(this).attr('data-id');
                $('#username').val($(".name_"+$id).val());
                $('#useremail').val($(".email_"+$id).val());
-               $('#usertype').val($(".type_"+$id).val());
+               if ($(".type_"+$id).val() == 0) {
+                $('#usertype').val('Admin');
+                } else {
+                  $('#usertype').val('User');
+                }               
                $('#userphone').val($(".phone_"+$id).val());
                $('#useraddress').val($(".address_"+$id).val());
                $('#userdob').val($(".dob_"+$id).val());

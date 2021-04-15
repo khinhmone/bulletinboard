@@ -43,8 +43,8 @@
           <td>{{ $user->phone }}</td>   
           <td>{{ $user->dob }}</td>    
           <td>{{ $user->address }}</td>
-          <td>{{ $user->created_at }}</td>
-          <td>{{ $user->updated_at }}</td>
+          <td>{{ $user->formatted_created_at }}</td>
+          <td>{{ $user->formatted_updated_at }}</td>
           <td><a href="{{ URL::to('/delete_user/'.$user->id)}}"> Delete </a></td>
 
           <input type="hidden" class="form-control name_{{$user->id}}" id="name" value = "{{ $user->name }}">

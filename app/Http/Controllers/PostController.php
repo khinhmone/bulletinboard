@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Post;
 use App\User;
 use Carbon\Carbon;
@@ -17,7 +18,7 @@ class PostController extends Controller
 		if (isset(Auth::user()->type)) {
 			if (Auth::user()->type == 0) {
 				$postList = Post::leftJoin('users','posts.create_user_id', '=', 'users.id')
-				->select('posts.*' ,'users.name')
+				->select('posts.*' ,'users.name', DB::raw('DATE_FORMAT(posts.created_at, "%d/%m/%Y") as formatted_created_at'))
 				->orderBy('created_at', 'DESC')
 				->paginate(5);
 			} else {

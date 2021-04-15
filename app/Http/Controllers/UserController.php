@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -13,7 +14,11 @@ class UserController extends Controller
 {
 	public function users()
 	{
-		$userList = User::latest()->paginate(5);
+		// $userList = User::latest()->paginate(5);
+		$userList = DB::table('users')
+             ->select('users.*', DB::raw('DATE_FORMAT(users.created_at, "%d/%m/%Y") as formatted_created_at'), 
+             	DB::raw('DATE_FORMAT(users.updated_at, "%d/%m/%Y") as formatted_updated_at'))
+             ->latest()->paginate(5);
 		return view('user.userlist',['userList' => $userList]);
 	}
 

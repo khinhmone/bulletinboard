@@ -9,6 +9,11 @@ use App\User;
 
 class LoginController extends Controller
 {
+    public function login(Request $request)
+    {
+        return view('auth.login');
+    }
+
     public function authenticate(Request $request)
     {
         // validate the form data
@@ -22,12 +27,7 @@ class LoginController extends Controller
         } else {
             // attempt to log
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password ])) {
-                // if successful -> redirect forward
-                // if (Auth::user()->type == 1) {
-                //     return redirect('posts');
-                // } else {
-                	return redirect('posts');
-                // }
+                return redirect('posts');
             }
     
             // if unsuccessful -> redirect back
@@ -39,6 +39,6 @@ class LoginController extends Controller
 
     public function logout(){
         Auth::logout();
-        return redirect('/');
+        return redirect('user/login');
     }
 }

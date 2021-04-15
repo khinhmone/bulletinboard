@@ -31,6 +31,8 @@
         <th></th>
         <th></th>  
       </tr>
+      @if(isset($postList))
+      @if(sizeof($postList) > 0)
       @foreach($postList as $post)    
         <tr>    
           <td id="post_id_{{ $post->id }}"><a class="btn btn-link" id="post-info" href="" data-toggle="modal" data-target="#exampleModal" data-id="{{ $post->id }}">{{ $post->title }}</a></td>
@@ -48,6 +50,8 @@
           <input type="hidden" class="form-control updateuser_{{$post->id}}" id="updated_user_id" value="{{ $post->updated_user_id }}">
         </tr>
     @endforeach
+    @endif
+    @endif
   </table>
   {{ $postList->links() }}
 

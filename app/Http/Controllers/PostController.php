@@ -13,17 +13,20 @@ class PostController extends Controller
 	// show all posts
 	public function index() 
 	{
-		if (Auth::user()->type == 0) {
-			$postList = Post::leftJoin('users','posts.create_user_id', '=', 'users.id')
-			->select('posts.*' ,'users.name')
-			->orderBy('created_at', 'DESC')
-			->paginate(5);
-		} else {
-			$postList = Post::leftJoin('users','posts.create_user_id', '=', 'users.id')
-			->select('posts.*' ,'users.name')
-			->where('users.id', '=', Auth::user()->id)
-			->orderBy('created_at', 'DESC')
-			->paginate(5);
+		$postList = '';
+		if (isset(Auth::user()->type)) {
+			if (Auth::user()->type == 0) {
+				$postList = Post::leftJoin('users','posts.create_user_id', '=', 'users.id')
+				->select('posts.*' ,'users.name')
+				->orderBy('created_at', 'DESC')
+				->paginate(5);
+			} else {
+				$postList = Post::leftJoin('users','posts.create_user_id', '=', 'users.id')
+				->select('posts.*' ,'users.name')
+				->where('users.id', '=', Auth::user()->id)
+				->orderBy('created_at', 'DESC')
+				->paginate(5);
+			}
 		}
 		return view('post.postlist',['postList' => $postList]);
 	}

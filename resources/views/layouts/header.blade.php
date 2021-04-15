@@ -101,7 +101,7 @@
                             <a class="nav-link" href="#">{{ Auth::user()->name }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ URL::to('/logout') }}">Logout</a>
+                            <a class="nav-link" href="{{ URL::to('/user/logout') }}">Logout</a>
                         </li>
                     </ul>
                 </form>

@@ -14,17 +14,11 @@ use App\Http\Controllers\ExportImportController;
 |
 */
 
-Route::get('/', function () {
-    return view('auth/login');
+Route::group(['prefix' => 'user'], function () {
+    Route::get('/login', 'LoginController@login');
+    Route::post('/login', 'LoginController@authenticate');
+    Route::get('/logout', 'LoginController@logout');
 });
-
-// Route::get('/login', function () {
-//     dd('');
-// });
-
-Route::post('login','LoginController@authenticate');
-Route::get('logout','LoginController@logout');
-
 
 // user list
 Route::get('users','UserController@users');

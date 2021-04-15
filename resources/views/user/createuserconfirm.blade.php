@@ -66,7 +66,7 @@
                       <input type="hidden" name="address" value="{{ $address }}">
                       <input type="hidden" name="profile" value="{{ $profile }}">
                      
-                      <img src="{{ asset('images/') }}{{ '/'.$profile }}" class="img-rounded">
+                      <img src="{{ $profile }}" class="img-rounded">
                       <!-- <img src="{{ asset('images/1618289871.png') }}" alt="tag"> -->
                     </div>
                 </div>

@@ -4,7 +4,7 @@
 
 <style type="text/css">
   select{
-    width: 400px;
+    width: 331px;
     height: 35px;
     border: 1px solid lightgray;
     border-radius: 4px;

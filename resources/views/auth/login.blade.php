@@ -20,7 +20,7 @@
             @endforeach
         </ul>
     @endif
-    <form method="POST" action="{{ URL::to('/login') }}">
+    <form method="POST" action="{{ URL::to('/user/login') }}">
         {{ csrf_field() }}
         <div>
             <table>

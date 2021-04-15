@@ -32,7 +32,7 @@
                     <input type="hidden" name="name" value="{{ $name }}">
                   </div>
                   <div class="col-md-4 text-md-center">
-                    <img src="{{ asset('images/') }}{{ '/'.$profile }}" class="img-rounded" width="80" height="80">
+                    <img src="{{ $profile }}" class="img-rounded" width="80" height="80">
                     <input type="hidden" name="profile" value="{{ $profile }}">
                   </div>
                 </div>

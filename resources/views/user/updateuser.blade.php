@@ -37,7 +37,9 @@
                     @endif
                   </div>
                   <div class="col-md-4 text-md-center">
-                    <img src="{{ asset('images/') }}{{ '/'.$profile }}" class="img-rounded" width="80" height="80">
+                    @if($profile)
+                    <img src="{{ $profile }}" class="img-rounded" width="80" height="80">
+                    @endif
                   </div>
                 </div>
 

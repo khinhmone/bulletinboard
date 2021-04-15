@@ -20,12 +20,15 @@ class UserController extends Controller
 
 	public function userProfile()
 	{
-		if (Auth::user()->type == 0) {
-			$type = 'Admin';
-		} else {
-			$type = 'User';
+		$photo = '';
+		$type = (Auth::user()->type == 0) ? 'Admin' : 'User';
+		if (Auth::user()->profile) {
+			$profile = Auth::user()->profile;
+			$exp_prof = explode('/', $profile);
+			$photo = $exp_prof[1].'/'.$exp_prof[2].'/'.$exp_prof[3];
 		}
-		return view('user.userprofile',['type' => $type]);
+		
+		return view('user.userprofile',['type' => $type, 'profile' => $photo]);
 	}
 
 	// create post form
@@ -49,11 +52,7 @@ class UserController extends Controller
 		$name = $request->get('name');
 		$email = $request->get('email');
 		$type = $request->get('type');
-		if ($type == 0) {
-			$role = 'Admin';
-		} else {
-			$role = 'User';
-		}
+		$role = ($type == 0) ? 'Admin' : 'User';		
 		$phone = $request->get('phone');
 		$dob = $request->get('dob');
 		$password = bcrypt($request->get('password'));
@@ -62,10 +61,10 @@ class UserController extends Controller
 
 		$imageName = time().'.'.$request->file('profile')->extension();
 
-        $request->file('profile')->move(public_path('images'), $imageName);
+        $request->file('profile')->move(public_path('/'.Auth::user()->id.'/images/'), $imageName);
 
 
-		return view('user.createuserconfirm',['name' => $name, 'email' => $email, 'type' => $type, 'phone' => $phone, 'dob' => $dob, 'password' => $password, 'address' => $address, 'profile' => $imageName, 'role' => $role]);
+		return view('user.createuserconfirm',['name' => $name, 'email' => $email, 'type' => $type, 'phone' => $phone, 'dob' => $dob, 'password' => $password, 'address' => $address, 'profile' => Auth::user()->id.'/images/'.$imageName, 'role' => $role]);
 	}
 
 	// store post to db
@@ -79,7 +78,7 @@ class UserController extends Controller
 		$user->dob = $request->get('dob');
 		$user->password = $request->get('password');
 		$user->address = $request->get('address');
-		$user->profile = $request->get('profile');
+		$user->profile = 'public/'.$request->get('profile');
 		$user->create_user_id = Auth::user()->id;
 		$user->updated_user_id = Auth::user()->id;
 		$user->created_at = Carbon::now();
@@ -91,6 +90,7 @@ class UserController extends Controller
 	// retrieve data for update user form
 	public function editUser() 
 	{
+		$photo = '';
 		$user = user::findOrFail(Auth::user()->id);
 		$name = $user->name;
 		$email = $user->email;
@@ -99,7 +99,12 @@ class UserController extends Controller
 		$dob = $user->dob;
 		$address = $user->address;
 		$profile = $user->profile;
-		return view('user.updateuser', ['name' => $name, 'email' => $email, 'type' => $type, 'phone' => $phone, 'dob' => $dob, 'address' => $address, 'profile' => $profile]);
+		if ($profile) {
+			$exp_prof = explode('/', $profile);
+			$photo = '/'.$exp_prof[1].'/'.$exp_prof[2].'/'.$exp_prof[3];
+		}
+		// dd($photo);
+		return view('user.updateuser', ['name' => $name, 'email' => $email, 'type' => $type, 'phone' => $phone, 'dob' => $dob, 'address' => $address, 'profile' => $photo]);
 	}
 
 	// show data for update user form
@@ -117,26 +122,25 @@ class UserController extends Controller
 		$name = $request->get('name');
 		$email = $request->get('email');
 		$type = $request->get('type');
-		if ($type == 0) {
-			$role = 'Admin';
-		} else {
-			$role = 'User';
-		}
+		$role = ($type == 0) ? 'Admin' : 'User';
 		$phone = $request->get('phone');
 		$dob = $request->get('dob');
 		$address = $request->get('address');
 		$profile = $request->get('profile');
+		// dd($address);
 
 		$imageName = time().'.'.$request->file('profile')->extension();
 
-        $request->file('profile')->move(public_path('images'), $imageName);
+        $request->file('profile')->move(public_path('/'.Auth::user()->id.'/images/'), $imageName);
 
-		return view('user.updateuserconfirm', ['name' => $name, 'email' => $email, 'type' => $type, 'phone' => $phone, 'dob' => $dob, 'address' => $address, 'profile' => $imageName, 'id' => $ids, 'role' => $role]);
+
+		return view('user.updateuserconfirm', ['name' => $name, 'email' => $email, 'type' => $type, 'phone' => $phone, 'dob' => $dob, 'address' => $address, 'profile' => '/'.Auth::user()->id.'/images/'.$imageName, 'id' => $ids, 'role' => $role]);
 	}
 
 	// update user data to db
 	public function updateUser(Request $request,$id) 
 	{
+		// dd($request);
 		$user = User::findOrFail($id);
 		$user->name = $request->get('name');
 		$user->email = $request->get('email');
@@ -144,7 +148,7 @@ class UserController extends Controller
 		$user->phone = $request->get('phone');
 		$user->dob = $request->get('dob');
 		$user->address = $request->get('address');
-		$user->profile = $request->get('profile');
+		$user->profile = 'public'.$request->get('profile');
 		$user->updated_user_id = Auth::user()->id;
 		$user->updated_at = Carbon::now();
 		$user->save();
@@ -214,15 +218,19 @@ class UserController extends Controller
 		}
 
 		elseif ($from) {
-			$userList = User::where('created_at', '>', $from)->get()->paginate(5);
+			$userList = User::where('created_at', '>=', $from)->paginate(5);
 		}
 
 		elseif ($to) {
-			$userList = User::where('created_at', '<', $to)->get()->paginate(5);
+			$userList = User::where('created_at', '<', $to)->paginate(5);
+		}
+
+		elseif ($from && $to) {
+			$userList = User::whereBetween('created_at', [$from, $to])->paginate(5);
 		}
 
 		else {
-			$userList = User::whereBetween('created_at', [$from, $to])->paginate(5);
+			$userList = User::latest()->paginate(5);
 		}
 			
 		return view('user.userlist',['userList' => $userList]);

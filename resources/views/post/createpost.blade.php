@@ -21,7 +21,7 @@
                 <div class="form-group row">
                   <label for="email" class="col-md-4 col-form-label text-md-right">Title</label>
                   <div class="col-md-6">
-                    <input type="text" name="title" class="form-control" autofocus>
+                    <input type="text" name="title" class="form-control" value="{{ old('title') }}">
 
                     @if ($errors->has('title'))
                         <span class="help-block">
@@ -37,7 +37,7 @@
                 <div class="form-group row">
                     <label for="password" class="col-md-4 col-form-label text-md-right">Description</label>
                     <div class="col-md-6">
-                      <textarea name="description" class="form-control" rows="3"></textarea>
+                      <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
 
                       @if ($errors->has('description'))
                         <span class="help-block">

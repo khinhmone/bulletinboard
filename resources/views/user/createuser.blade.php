@@ -28,7 +28,7 @@
                 <div class="form-group row">
                   <label class="col-md-4 col-form-label text-md-left">Name <span>*</span></label>
                   <div class="col-md-6">
-                    <input type="text" class="form-control" name="name" autofocus>
+                    <input type="text" class="form-control" name="name" value="{{ old('name') }}">
 
                     @if ($errors->has('name'))
                         <span class="help-block">
@@ -42,7 +42,7 @@
                 <div class="form-group row">
                   <label class="col-md-4 col-form-label text-md-left">Email Address <span>*</span></label>
                   <div class="col-md-6">
-                    <input type="text" class="form-control" name="email">
+                    <input type="text" class="form-control" name="email" value="{{ old('email') }}">
 
                     @if ($errors->has('email'))
                         <span class="help-block">
@@ -103,7 +103,7 @@
                 <div class="form-group row">
                   <label class="col-md-4 col-form-label text-md-left">Phone</label>
                   <div class="col-md-6">
-                    <input type="text" class="form-control" name="phone">
+                    <input type="text" class="form-control" name="phone" value="{{ old('phone') }}">
                   </div>
                 </div>
 
@@ -111,7 +111,7 @@
                 <div class="form-group row">
                   <label class="col-md-4 col-form-label text-md-left">Date Of Birth</label>
                   <div class="col-md-6">
-                    <input type="date" class="form-control" name="dob">
+                    <input type="date" class="form-control" name="dob" value="{{ old('dob') }}">
                   </div>
                 </div>
 
@@ -119,7 +119,7 @@
                 <div class="form-group row">
                   <label class="col-md-4 col-form-label text-md-left">Address</label>
                   <div class="col-md-6">
-                    <textarea class="form-control" name="address"></textarea>
+                    <textarea class="form-control" name="address">{{ old('address') }}</textarea>
                   </div>
                 </div>
 

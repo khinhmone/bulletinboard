@@ -39,7 +39,7 @@
                 <div class="form-group row">
                   <label for="email" class="col-md-4 col-form-label text-md-center">Email :</label>
                   <div class="col-md-6">
-                    <input type="text" class="form-control" name="email" autofocus>
+                    <input type="text" class="form-control" name="email" value="{{ old('email') }}" autofocus>
                   </div>
                   <div class="col-md-2 text-md-left">
                     <span>*</span>

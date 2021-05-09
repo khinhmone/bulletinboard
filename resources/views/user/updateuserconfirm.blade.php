@@ -41,7 +41,7 @@
                 <div class="form-group row">
                   <label class="col-md-4 col-form-label text-md-right">Email Address : </label>
                   <div class="col-md-4">
-                    <label class="col-md-9 col-form-label text-md-left">{{ $email }}</label>
+                    <label class="col-md-12 col-form-label text-md-left">{{ $email }}</label>
                     <input type="hidden" name="email" value="{{ $email }}">
                   </div>
                 </div>
@@ -50,7 +50,7 @@
                 <div class="form-group row">
                   <label class="col-md-4 col-form-label text-md-right">Type : </label>
                   <div class="col-md-4">
-                    <label class="col-md-9 col-form-label text-md-left">{{ $role }}</label>
+                    <label class="col-md-12 col-form-label text-md-left">{{ $role }}</label>
                     <input type="hidden" name="type" value="{{ $type }}">
                   </div>
                 </div>
@@ -59,7 +59,7 @@
                 <div class="form-group row">
                   <label class="col-md-4 col-form-label text-md-right">Phone : </label>
                   <div class="col-md-4">
-                    <label class="col-md-9 col-form-label text-md-left">{{ $phone }}</label>
+                    <label class="col-md-12 col-form-label text-md-left">{{ $phone }}</label>
                     <input type="hidden" name="phone" value="{{ $phone }}">
                   </div>
                 </div>
@@ -68,7 +68,7 @@
                 <div class="form-group row">
                   <label class="col-md-4 col-form-label text-md-right">Date Of Birth : </label>
                   <div class="col-md-4">
-                    <label class="col-md-9 col-form-label text-md-left">{{ $dob }}</label>
+                    <label class="col-md-12 col-form-label text-md-left">{{ $dob }}</label>
                     <input type="hidden" name="dob" value="{{ $dob }}">
                   </div>
                 </div>
@@ -77,7 +77,7 @@
                 <div class="form-group row">
                   <label class="col-md-4 col-form-label text-md-right">Address : </label>
                   <div class="col-md-4">
-                    <label class="col-md-9 col-form-label text-md-left">{{ $address }}</label>
+                    <label class="col-md-12 col-form-label text-md-left">{{ $address }}</label>
                     <input type="hidden" name="address" value="{{ $address }}">
                   </div>
                 </div>

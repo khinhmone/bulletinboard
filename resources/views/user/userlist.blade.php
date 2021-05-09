@@ -45,7 +45,11 @@
           <td>{{ $user->address }}</td>
           <td>{{ $user->formatted_created_at }}</td>
           <td>{{ $user->formatted_updated_at }}</td>
-          <td><a href="{{ URL::to('/delete_user/'.$user->id)}}"> Delete </a></td>
+          <td>
+            @if ( Auth::user()->id == $user->id )
+              <a href="{{ URL::to('/delete_user/'.$user->id)}}" onclick="return confirm('Are you sure to delete {{ $user->name }}?');" class="btn btn-danger btn-sm">  Delete </a>
+            @endif
+          </td>          
 
           <input type="hidden" class="form-control name_{{$user->id}}" id="name" value = "{{ $user->name }}">
           <input type="hidden" class="form-control email_{{$user->id}}" id="email" value = "{{ $user->email }}">

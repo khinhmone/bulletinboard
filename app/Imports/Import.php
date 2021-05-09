@@ -2,11 +2,13 @@
 
 namespace App\Imports;
 use App\Post;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithValidation;
 use Carbon\Carbon;
 use Auth;
 
-class Import implements ToModel
+class Import implements ToModel, WithValidation
 {
     /**
     * @param array $row
@@ -24,5 +26,12 @@ class Import implements ToModel
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+    }
+
+    public function rules(): array
+    {
+        return [
+            Rule::unique('posts', 'title'),
+        ];
     }
 }

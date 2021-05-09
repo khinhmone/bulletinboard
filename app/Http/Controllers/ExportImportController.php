@@ -22,7 +22,8 @@ class ExportImportController extends Controller
     public function fileImport(Request $request) 
     {
         Excel::import(new Import, $request->file('csv_file'));
-        return back();
+        // return back();
+        return redirect('/posts')->with('success','Post import successfully!');
     }
 
     /**

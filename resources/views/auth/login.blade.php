@@ -10,54 +10,79 @@
 
     <title>SCM Bulletin Board</title>
 
-    <link href="{{ URL::asset('../css/login_form/login_form.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('../bootstrap-5/css/bootstrap.css') }}" rel="stylesheet">
+    <style type="text/css">
+        span, li{
+            color: red;
+            margin-left: 20px;
+        }
+    </style>
 </head>
 <body>
-    @if ($errors->any())
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
-    <form method="POST" action="{{ URL::to('/user/login') }}">
-        {{ csrf_field() }}
-        <div>
-            <table>
-                <tr>
-                   <th>SCM Bulletin Board</th>
-                </tr>
+<i><h2 style="color: gray;margin: 20px 0 20px 338px;">SCM Bulletin Board</h2></i>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">Login Form</div>
+          <div class="card-body">
+            <form method="POST" action="{{ URL::to('/user/login') }}">
+                {{ csrf_field() }}
 
-                <tr>
-                    <td><span>Login Form</span></td>
-                </tr>
+                @if ($errors->any())
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                @endif
+                <div class="form-group row">
+                  <label for="email" class="col-md-4 col-form-label text-md-center">Email :</label>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" name="email" autofocus>
+                  </div>
+                  <div class="col-md-2 text-md-left">
+                    <span>*</span>
+                  </div>
+                </div><br>
 
-                <tr>
-                    <td>Email</td>
-                    <td><input type="text" name="email" size="50"> <label>*</label></td>
-                </tr>
+                <div class="form-group row">
+                    <label for="password" class="col-md-4 col-form-label text-md-center">Password :</label>
+                    <div class="col-md-6">
+                        <input type="password" class="form-control" name="password">
+                    </div>
+                    <div class="col-md-2 text-md-left">
+                        <span>*</span>
+                    </div>
+                </div><br>
 
-                <tr>
-                    <td>Password</td>
-                    <td><input type="password" name="password" size="50"> <label>*</label></td>
-                </tr>
+                <div class="form-group row">
+                    <label for="password" class="col-md-4 col-form-label text-md-center"></label>
+                    <div class="col-md-6">
+                        <input type="checkbox" name="remember_me"> Remember Me
+                    </div>
+                </div><br>
 
-                <tr>
-                    <td></td>
-                    <td><input type="checkbox" name="remember_me">Remember Me</td>
-                </tr>
+                <div class="form-group row">
+                    <label for="password" class="col-md-4 col-form-label text-md-center"></label>
+                    <div class="col-md-6">
+                        <a style="text-decoration: none;" href="{{ URL::to('/forget_password') }}">Forget password?</a>
+                    </div>
+                </div><br>
 
-                <tr>
-                    <td></td>
-                    <td><a href="{{ URL::to('/forget_password') }}">forget password?</a></td>
-                </tr>
+                <div class="form-group row">
+                    <label for="password" class="col-md-4 col-form-label text-md-center"></label>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </div>
 
-                <tr>
-                    <td></td>
-                    <td><button type="submit">Login</button></td>
-                </tr>         
-            </table>
-        </div>
-    </form>
-</body>
-</html>
+                
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

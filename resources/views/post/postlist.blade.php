@@ -14,10 +14,10 @@
     <form action="{{ URL::to('/search') }}" method="post">
       {{ csrf_field() }}
       <input type="text" name="search">
-      <button type="submit" class="btn btn-primary">Search</button>
-      <a href="{{ URL::to('/create_post_view')}}" class="btn btn-primary">Add</a>
-      <a href="{{ URL::to('/upload_csv_view')}}" class="btn btn-primary">Upload</a>
-      <a href="{{ route('file-export') }}" class="btn btn-primary">Download</a>
+      <button type="submit" class="btn btn-primary btn-sm">Search</button>
+      <a href="{{ URL::to('/create_post_view')}}" class="btn btn-primary btn-sm">Add</a>
+      <a href="{{ URL::to('/upload_csv_view')}}" class="btn btn-primary btn-sm">Upload</a>
+      <a href="{{ route('file-export') }}" class="btn btn-primary btn-sm">Download</a>
     </form>
 
   </div>
@@ -32,25 +32,31 @@
         <th></th>  
       </tr>
       @if(isset($postList))
-      @if(sizeof($postList) > 0)
       @foreach($postList as $post)    
         <tr>    
           <td id="post_id_{{ $post->id }}"><a class="btn btn-link" id="post-info" href="" data-toggle="modal" data-target="#exampleModal" data-id="{{ $post->id }}">{{ $post->title }}</a></td>
           <td>{{ $post->description }}</td>
           <td>{{ $post->name }} </td>
           <td>{{ $post->formatted_created_at }}</td>   
-          <td><a href="{{ URL::to('/edit_post_view/'.$post->id)}}"> Edit </a></td>    
-          <td><a href="{{ URL::to('/delete_post/'.$post->id)}}" onclick="return confirm('Are you sure to delete {{ $post->title }}?');"> Delete </a></td>
+          <td>
+            @if ( Auth::user()->id == $post->create_user_id )
+              <a href="{{ URL::to('/edit_post_view/'.$post->id)}}" class="btn btn-success btn-sm"> Edit </a>
+            @endif
+          </td>    
+          <td>
+            @if ( Auth::user()->id == $post->create_user_id )
+              <a href="{{ URL::to('/delete_post/'.$post->id)}}" onclick="return confirm('Are you sure to delete {{ $post->title }}?');" class="btn btn-danger btn-sm"> Delete </a>
+            @endif
+          </td>
           <input type="hidden" class="form-control title_{{$post->id}}" id="title" value="{{ $post->title }}">
           <input type="hidden" class="form-control description_{{$post->id}}" id="description" value="{{ $post->description }}">
           <input type="hidden" class="form-control status_{{$post->id}}" id="status" value="{{ $post->status }}">
           <input type="hidden" class="form-control createdat_{{$post->id}}" id="created_at" value="{{ $post->created_at }}">
-          <input type="hidden" class="form-control created_user_{{$post->id}}" id="created_user_id" value="{{ $post->create_user_id }}">
+          <input type="hidden" class="form-control created_user_{{$post->id}}" id="created_user_id" value="{{ $post->name }}">
           <input type="hidden" class="form-control updatedat_{{$post->id}}" id="updated_at" value="{{ $post->updated_at }}">
           <input type="hidden" class="form-control updateuser_{{$post->id}}" id="updated_user_id" value="{{ $post->updated_user_id }}">
         </tr>
     @endforeach
-    @endif
     @endif
   </table>
   {{ $postList->links() }}
@@ -79,19 +85,19 @@
                         <input type="text" class="form-control" id="post_status">
                     </div>
                     <div class="form-group">
-                        <label for="created_at">Created_At</label>
+                        <label for="created_at">Created At</label>
                         <input type="text" class="form-control" id="post_created_at">
                     </div>
                     <div class="form-group">
-                        <label for="created_user_id">Created_User_ID</label>
+                        <label for="created_user_id">Created User</label>
                         <input type="text" class="form-control" id="post_created_user_id">
                     </div>
                     <div class="form-group">
-                        <label for="updated_at">Updated_At</label>
+                        <label for="updated_at">Last Updated At</label>
                         <input type="text" class="form-control" id="post_updated_at">
                     </div>
                     <div class="form-group">
-                        <label for="updated_user_id">Updated_User_ID</label>
+                        <label for="updated_user_id">Updated User</label>
                         <input type="text" class="form-control" id="post_updated_user_id">
                     </div>
             </div>

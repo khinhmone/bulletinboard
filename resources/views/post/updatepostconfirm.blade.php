@@ -19,23 +19,23 @@
             <form method="POST" action="/update_post/{{$id}}">
               {{ csrf_field() }}
                 <div class="form-group row">
-                  <label for="email" class="col-md-4 col-form-label text-md-right">Title :</label>
+                  <label for="email" class="col-md-4 col-form-label text-md-center">Title :</label>
                   <div class="col-md-6">
-                    <label class="col-md-4 col-form-label text-md-left">{{ $title }}</label>
+                    <label class="col-md-12 col-form-label text-md-left">{{ $title }}</label>
                     <input type="hidden" name="title" value="{{ $title }}">
                   </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="password" class="col-md-4 col-form-label text-md-right">Description :</label>
+                    <label for="password" class="col-md-4 col-form-label text-md-center">Description :</label>
                     <div class="col-md-6">
-                      <label class="col-md-4 col-form-label text-md-left">{{ $description }}</label>
+                      <label class="col-md-12 col-form-label text-md-left">{{ $description }}</label>
                       <input type="hidden" name="description" value="{{ $description }}">
                     </div>
                 </div>
 
                 <div class="form-group row">
-                  <label for="password" class="col-md-4 col-form-label text-md-right">Status :</label>
+                  <label for="password" class="col-md-4 col-form-label text-md-center">Status :</label>
                   <div class="col-md-6">
                     <div class="form-check form-switch">
                       <input name="status" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" {{ $checked }}>

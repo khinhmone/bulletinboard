@@ -24,7 +24,6 @@ class CreatePostsTable extends Migration
             $table->datetime('created_at');
             $table->datetime('updated_at');
             $table->datetime('deleted_at');
-            $table->softDeletes();
         });
     }
 

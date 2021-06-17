@@ -165,49 +165,37 @@ class UserDao implements UserDaoInterface
 
   public function searchUser($name, $email, $from, $to)
   {
+    $userList = User::select('users.*', DB::raw('DATE_FORMAT(users.created_at, "%d/%m/%Y") as formatted_created_at'), 
+              DB::raw('DATE_FORMAT(users.updated_at, "%d/%m/%Y") as formatted_updated_at'));
     if ($name) {
-      $userList = User::select('users.*', DB::raw('DATE_FORMAT(users.created_at, "%d/%m/%Y") as formatted_created_at'), 
-              DB::raw('DATE_FORMAT(users.updated_at, "%d/%m/%Y") as formatted_updated_at'))
-             ->where('users.deleted_at','=',null)->where('name', 'LIKE', '%'.$name.'%')->paginate(5);
+      $userList = $userList->where('users.deleted_at','=',null)->where('name', 'LIKE', '%'.$name.'%');
     }
 
     elseif ($email) {
-      $userList = User::select('users.*', DB::raw('DATE_FORMAT(users.created_at, "%d/%m/%Y") as formatted_created_at'), 
-              DB::raw('DATE_FORMAT(users.updated_at, "%d/%m/%Y") as formatted_updated_at'))
-             ->where('users.deleted_at','=',null)->where('email', 'LIKE', '%'.$email.'%')->paginate(5);
+      $userList = $userList->where('users.deleted_at','=',null)->where('email', 'LIKE', '%'.$email.'%');
     }
 
     elseif ($from) {
-      $userList = User::select('users.*', DB::raw('DATE_FORMAT(users.created_at, "%d/%m/%Y") as formatted_created_at'), 
-              DB::raw('DATE_FORMAT(users.updated_at, "%d/%m/%Y") as formatted_updated_at'))
-             ->where('users.deleted_at','=',null)->where('created_at', '>=', $from)->paginate(5);
+      $userList = $userList->where('users.deleted_at','=',null)->where('created_at', '>=', $from);
     }
 
     elseif ($to) {
-      $userList = User::select('users.*', DB::raw('DATE_FORMAT(users.created_at, "%d/%m/%Y") as formatted_created_at'), 
-              DB::raw('DATE_FORMAT(users.updated_at, "%d/%m/%Y") as formatted_updated_at'))
-             ->where('users.deleted_at','=',null)->where('created_at', '<', $to)->paginate(5);
+      $userList = $userList->where('users.deleted_at','=',null)->where('created_at', '<', $to);
     }
 
     elseif ($from && $to) {
-      $userList = User::select('users.*', DB::raw('DATE_FORMAT(users.created_at, "%d/%m/%Y") as formatted_created_at'), 
-              DB::raw('DATE_FORMAT(users.updated_at, "%d/%m/%Y") as formatted_updated_at'))
-             ->where('users.deleted_at','=',null)->whereBetween('created_at', [$from, $to])->paginate(5);
+      $userList = $userList->where('users.deleted_at','=',null)->whereBetween('created_at', [$from, $to]);
     }
 
     elseif ($name && $email) {
-      $userList = User::select('users.*', DB::raw('DATE_FORMAT(users.created_at, "%d/%m/%Y") as formatted_created_at'), 
-              DB::raw('DATE_FORMAT(users.updated_at, "%d/%m/%Y") as formatted_updated_at'))
-              ->where('users.deleted_at','=',null)->where('name', 'LIKE', '%'.$name.'%')
-              ->where('email', 'LIKE', '%'.$email.'%')->paginate(5);
+      $userList = $userList ->where('users.deleted_at','=',null)->where('name', 'LIKE', '%'.$name.'%')
+              ->where('email', 'LIKE', '%'.$email.'%');
     }
 
     else {
-      $userList = User::select('users.*', DB::raw('DATE_FORMAT(users.created_at, "%d/%m/%Y") as formatted_created_at'), 
-              DB::raw('DATE_FORMAT(users.updated_at, "%d/%m/%Y") as formatted_updated_at'))
-             ->where('users.deleted_at','=',null)->latest()->paginate(5);
+      $userList = $userList->where('users.deleted_at','=',null);
     }
-    return $userList;
+    return $userList->paginate(5);
   }
 
   public function changepassword($request)

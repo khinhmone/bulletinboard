@@ -24,16 +24,14 @@ class PostDao implements PostDaoInterface
 			$postList = Post::leftJoin('users','posts.create_user_id', '=', 'users.id')
 			// ->andJoin('users','posts.updated_user_id', '=', 'users.id')
 			->select('posts.*' ,'users.name', DB::raw('DATE_FORMAT(posts.created_at, "%d/%m/%Y") as formatted_created_at'))
-			->orderBy('created_at', 'DESC')
-			->paginate(5);
+			->orderBy('created_at', 'DESC');
 		} else {
 			$postList = Post::leftJoin('users','posts.create_user_id', '=', 'users.id')
 			->select('posts.*' ,'users.name', DB::raw('DATE_FORMAT(posts.created_at, "%d/%m/%Y") as formatted_created_at'))
 			->where('users.id', '=', Auth::user()->id)
-			->orderBy('created_at', 'DESC')
-			->paginate(5);
+			->orderBy('created_at', 'DESC');
 		}
-		return $postList;
+		return $postList->paginate(5);
 	}
 
 	public function savePostConfirm(Request $request)
@@ -116,12 +114,12 @@ class PostDao implements PostDaoInterface
 	{
 		if (Auth::user()->type == 0) {
 			$search_post = Post::leftJoin('users','posts.create_user_id', '=', 'users.id')
-				->select('posts.*' ,'users.name', DB::raw('DATE_FORMAT(posts.created_at, "%d/%m/%Y") as formatted_created_at'))->where('title', 'LIKE', '%'.$search.'%')->paginate(5);
+				->select('posts.*' ,'users.name', DB::raw('DATE_FORMAT(posts.created_at, "%d/%m/%Y") as formatted_created_at'))->where('title', 'LIKE', '%'.$search.'%');
 		} else {
 			$search_post = Post::leftJoin('users','posts.create_user_id', '=', 'users.id')
 				->select('posts.*' ,'users.name', DB::raw('DATE_FORMAT(posts.created_at, "%d/%m/%Y") as formatted_created_at'))->where('title', 'LIKE', '%'.$search.'%')
-						->where('posts.create_user_id', '=', Auth::user()->id)->paginate(5);
+						->where('posts.create_user_id', '=', Auth::user()->id);
 		}
-		return $search_post;
+		return $search_post->paginate(5);
 	}
 }
